@@ -19,13 +19,15 @@ function retornarCardHTML({ id, imagen, description, price } = evento) {
                 <h5 class="card-title">Primavera 2023</h5>
                 <p class="card-text">${description}</p>
                 <p class="card-text">$${price}</p>
-                <a href="checkout.html" class="btn btn-primary">Comprar</a>
+                <a href="checkout.html" class="btn btn-primary" id="${id}">Comprar</a>
             </div>
             </div>`
 
 }
+
+
 function activarClickEnBotones() {
-    const botones = document.querySelectorAll('button.button.button-outline.button-add');
+    const botones = document.querySelectorAll('.btn.btn-primary');
     botones.forEach((boton) => {
         console.log(boton);
         boton.addEventListener('click', () => {
@@ -56,3 +58,11 @@ inputSearch.addEventListener('search', () => {
     const resultado = arrayeventos.filter((evento) => evento.description.toLowerCase().includes(inputSearch.value.toLowerCase()))
     cargareventos(resultado)
 })
+
+
+const formSearch = document.querySelector('form[role="search"]');
+formSearch.addEventListener('submit', (event) => {
+    localStorage.setItem("ultimaBusqueda", inputSearch.value);
+    const resultado = arrayeventos.filter((evento) => evento.description.toLowerCase().includes(inputSearch.value.toLowerCase()));
+    cargareventos(resultado);
+});

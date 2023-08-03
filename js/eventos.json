@@ -1,4 +1,4 @@
-const arrayeventos = [
+[
     {
       id : "1",
       imagen: "images/kurt.png",
@@ -40,11 +40,3 @@ const arrayeventos = [
       price : "84800"
     }
   ]
-
-
-
-
-
-const eventoSeleccionado = JSON.parse(localStorage.getItem('eventoSeleccionado')); 
-const cantidadGuardada = parseInt(localStorage.getItem('cantidadGuardada')) || 1;
-

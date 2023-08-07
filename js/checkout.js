@@ -33,6 +33,54 @@ tableBody.innerHTML = mostrarEventoHTML(eventoSeleccionado, cantidadGuardada);
 
 const numeroSeleccionado = document.querySelector("#numeroSeleccionado");
 
+function restarStock(eventoId, cantidadARestar) {
+    const url = `https://64cd129fbb31a268409a5658.mockapi.io/Eventos/${eventoId}`;
+    
+    // Obtener el evento actual
+    fetch(url)
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Error al obtener el evento');
+        }
+        return response.json();
+    })
+    .then((evento) => {
+        const stockActual = evento.stock;
+        const nuevoStock = stockActual - cantidadARestar;
+        
+        // Actualizar el stock en la API
+        return fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                stock: nuevoStock,
+            }),
+        });
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Error al actualizar el stock');
+        }
+        console.log('Stock actualizado correctamente');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 numeroSeleccionado.addEventListener("change", function () {
     const cantidadSeleccionada = parseInt(numeroSeleccionado.value);
     localStorage.setItem('cantidadGuardada', cantidadSeleccionada);
@@ -55,9 +103,8 @@ btnComprar.addEventListener('click', ()=> {
         if (result.isConfirmed) {
             localStorage.removeItem('eventoSeleccionado')
             localStorage.removeItem('cantidadSeleccionada')
-            localStorage.
-            Swal.fire('Muchas gracias por su compra!', '', 'success')
-            sectionProductos.innerHTML = mostrarMsgCarritoVacio()
+            restarStock(eventoSeleccionado.id, cantidadGuardada);
+            Swal.fire('¡Muchas gracias por su compra!', '', 'success')
         }
     })
 })

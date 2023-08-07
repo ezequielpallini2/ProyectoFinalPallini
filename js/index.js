@@ -1,6 +1,8 @@
 // Acceso al DOM, aquí :)
 const container = document.querySelector('div#container.container')
 const inputSearch = document.querySelector('input#inputSearch')
+URL_DATA = https://64cd129fbb31a268409a5658.mockapi.io
+
 
 
 function retornarCardError() {

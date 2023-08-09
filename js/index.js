@@ -49,14 +49,16 @@ function cargareventos(array) {
 function obtenerEventos() {
     fetch(URL_DATA)
         .then((response) => response.json())
-        .then((data)=> arrayeventos.push(...data))
-        console.log(arrayeventos)
-        cargareventos(arrayeventos)
-        
-        //.catch((error) => container.innerHTML = retornarCardError());
+        .then((data) => {
+            arrayeventos = data;
+            console.log(arrayeventos); // Asegúrate de que los datos se carguen correctamente
+            cargareventos(arrayeventos);
+        })
+        .catch((error) => {
+            console.error(error);
+            container.innerHTML = retornarCardError();
+        });
 }
-
-
 // Llamada inicial para obtener los eventos
 obtenerEventos();
 

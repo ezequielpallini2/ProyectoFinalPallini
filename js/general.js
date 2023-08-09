@@ -1,5 +1,5 @@
-const arrayeventos = []
+let arrayeventos = []
 
 const eventoSeleccionado = JSON.parse(localStorage.getItem('eventoSeleccionado')); 
-const cantidadGuardada = parseInt(localStorage.getItem('cantidadGuardada')) || 1;
+let cantidadGuardada = parseInt(localStorage.getItem('cantidadGuardada')) || 1;
 

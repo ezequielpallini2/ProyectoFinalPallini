@@ -15,18 +15,35 @@ function retornarCardError() {
             </div>`;
 }
 
-
 function retornarCardHTML({ id, imagen, description, price, stock } = evento) {
-    return `<div class="card" style="width: 18rem;">
-            <img src="${imagen}" class="card-img-top" alt="${description}">
-            <div class="card-body">
-                <h5 class="card-title">Primavera 2023</h5>
-                <p class="card-text">${description}</p>
-                <p class="card-text">$${price}</p>
-                <p class="card-text">¡Quedan solo ${stock} entradas! </p>
-                <a href="checkout.html" class="btn btn-primary" id="${id}">Comprar</a>
-            </div>
+let str = ""; // Inicializar la variable str
+
+    if (stock > 0) {
+        str = `
+            <div class="card" style="width: 18rem;">
+                <img src="${imagen}" class="card-img-top" alt="${description}">
+                <div class="card-body">
+                    <h5 class="card-title">Primavera 2023</h5>
+                    <p class="card-text">${description}</p>
+                    <p class="card-text">$${price}</p>
+                    <p class="card-text">¡Quedan solo ${stock} entradas! </p>
+                    <a href="checkout.html" class="btn btn-primary" id="${id}">Comprar</a>
+                </div>
             </div>`;
+    } else {
+        str = `
+            <div class="card" style="width: 18rem;">
+                <img src="${imagen}" class="card-img-top" alt="${description}">
+                <div class="card-body">
+                    <h5 class="card-title">Primavera 2023</h5>
+                    <p class="card-text">${description}</p>
+                    <p class="card-text">$${price}</p>
+                    <p class="card-text">¡El evento está agotado!</p>
+                </div>
+            </div>`;
+    }
+
+    return str;
 }
 
 function obtenerEventos() {
@@ -34,7 +51,6 @@ function obtenerEventos() {
         .then((response) => response.json())
         .then((data) => {
             arrayeventos = data;
-            console.log(arrayeventos); // Asegúrate de que los datos se carguen correctamente
             cargareventos(arrayeventos);
         })
         .catch((error) => {

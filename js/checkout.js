@@ -29,7 +29,15 @@ function mostrarEventoHTML(evento, cantidad) {
             </div>`;
 }
 
-// Leer la cantidad guardada por defecto desde localStorage
+
+
+
+async function recargarPaginaSinCache() {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    location.reload(true); 
+
+}
+
 
 tableBody.innerHTML = mostrarEventoHTML(eventoSeleccionado, cantidadGuardada);
 
@@ -49,6 +57,10 @@ function restarStock(eventoId, cantidadARestar) {
     .then((evento) => {
         const stockActual = evento.stock;
         const nuevoStock = stockActual - cantidadARestar;
+        eventoSeleccionado.stock = nuevoStock;
+
+        // Almacenar el objeto actualizado en el localStorage
+        localStorage.setItem('eventoSeleccionado', JSON.stringify(eventoSeleccionado));
        
         // Actualizar el stock en la API
         return fetch(url, {
@@ -65,7 +77,9 @@ function restarStock(eventoId, cantidadARestar) {
         if (!response.ok) {
             throw new Error('Error al actualizar el stock');
         }
-        console.log('Stock actualizado correctamente');
+        
+        
+   
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -99,16 +113,17 @@ btnComprar.addEventListener('click', ()=> {
           },
       }).then((result) => {
         if (result.isConfirmed) {
-            localStorage.removeItem('eventoSeleccionado')
-            localStorage.removeItem('cantidadSeleccionada')
-            restarStock(eventoSeleccionado.id, cantidadGuardada).then(() => {
-                // Actualizar el evento en el array y volver a mostrarlo en el HTML
-                const eventoIndex = arrayeventos.findIndex((e) => e.id === eventoSeleccionado.id);
-                if (eventoIndex !== -1) {
-                    arrayeventos[eventoIndex].stock -= cantidadGuardada;
-                    tableBody.innerHTML = mostrarEventoHTML(arrayeventos[eventoIndex], cantidadGuardada);
-                }});
+            
+            restarStock(eventoSeleccionado.id, cantidadGuardada)
+            
+            // Actualizar el evento en el array y volver a mostrarlo en el HTML
+            const eventoIndex = arrayeventos.findIndex((e) => e.id === eventoSeleccionado.id);
+            if (eventoIndex !== -1) {
+                arrayeventos[eventoIndex].stock -= cantidadGuardada;                
+            }
             Swal.fire('¡Muchas gracias por su compra!', '', 'success')
+            recargarPaginaSinCache();
+            
         }
     })
 })

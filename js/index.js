@@ -29,23 +29,3 @@ inputSearch.addEventListener('search', ()=> {
 
 // Llamada inicial para obtener los eventos
 obtenerEventos()
-
-
-
-
-
-
-
-
-
-
-
-
-
-//const formSearch = document.querySelector('form[role="search"]');
-//formSearch.addEventListener('submit', (event) => {
-//    localStorage.setItem("ultimaBusqueda", inputSearch.value);
- //   const resultado = arrayeventos.filter((evento) => evento.description.toLowerCase().includes(inputSearch.value.toLowerCase()));
-//    cargareventos(resultado);
-//});
-

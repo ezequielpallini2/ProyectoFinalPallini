@@ -108,8 +108,8 @@ btnComprar.addEventListener('click', ()=> {
         confirmButtonText: 'CONFIRMAR',
         denyButtonText: 'CANCELAR',
         customClass: {
-            confirmButton: 'bg-primary ', // Clase para el botón de confirmación
-            denyButton: 'bg-secondary',    // Clase para el botón de cancelación
+            confirmButton: 'bg-primary ', 
+            denyButton: 'bg-secondary',    
           },
       }).then((result) => {
         if (result.isConfirmed) {

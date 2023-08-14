@@ -49,7 +49,7 @@ function restarStock(eventoId, cantidadARestar) {
     .then((evento) => {
         const stockActual = evento.stock;
         const nuevoStock = stockActual - cantidadARestar;
-        
+       
         // Actualizar el stock en la API
         return fetch(url, {
             method: 'PUT',
@@ -101,7 +101,13 @@ btnComprar.addEventListener('click', ()=> {
         if (result.isConfirmed) {
             localStorage.removeItem('eventoSeleccionado')
             localStorage.removeItem('cantidadSeleccionada')
-            restarStock(eventoSeleccionado.id, cantidadGuardada);
+            restarStock(eventoSeleccionado.id, cantidadGuardada).then(() => {
+                // Actualizar el evento en el array y volver a mostrarlo en el HTML
+                const eventoIndex = arrayeventos.findIndex((e) => e.id === eventoSeleccionado.id);
+                if (eventoIndex !== -1) {
+                    arrayeventos[eventoIndex].stock -= cantidadGuardada;
+                    tableBody.innerHTML = mostrarEventoHTML(arrayeventos[eventoIndex], cantidadGuardada);
+                }});
             Swal.fire('¡Muchas gracias por su compra!', '', 'success')
         }
     })
@@ -112,4 +118,3 @@ btnCancelar.addEventListener('click', ()=> {
     localStorage.removeItem('cantidadSeleccionada')
 
 })
-
